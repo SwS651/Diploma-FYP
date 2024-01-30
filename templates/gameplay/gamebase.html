@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %} {% endblock %}</title>
+
+  <!-- JQUERY -->
+  <script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/jquery/jquery.min.js')}}"></script>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/css/adminlte.min.css')}}">
+  {% block csslink %}{% endblock %}
+</head>
+
+<body class="hold-transition layout-top-nav layout-footer-fixed" id="body">
+<div class="wrapper">
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="bg-wrapper">
+    {% block content %}
+     
+    {% endblock %}
+  </div>
+  <!-- /.content-wrapper -->
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/js/adminlte.min.js')}}"></script>
+
+<script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  function drag(ev) {
+    ev.dataTransfer.setData("Text", ev.target.id);
+  }
+  function drop(ev) {
+    if (ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("Text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+  }
+
+
+var randomBg = ["#CFEAEA ","#c9e3d5","#e7dadd","#dde9eb","#ecfac7","#facba9","#dfdbd3","#f1fdc1",    '#780099','#009923','#DE3163','#9FE2BF','#40E0D0','#6495ED']
+  var rindex = Math.floor(Math.random()  * randomBg.length)
+         const bgBody = document.getElementById('bg-wrapper');
+         bgBody.style.backgroundColor = randomBg[rindex];
+         
+</script>
+{% block scriptTag %}{% endblock %}
+</body>
+</html>

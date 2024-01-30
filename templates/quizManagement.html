@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Quiz Management
+{% endblock %}
+
+{% block quiz %}
+    nav-link active
+{% endblock %}
+
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid"> 
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-2">Quiz</h1>
+        </div><!-- /.col -->
+
+        <div class="col-sm-6">
+            <a type="button" href="{{url_for('submitQuiz')}}" class="float-right btn btn-lg bg-gradient-success" data-toggle="modal" data-target="#modalAddQuiz" >Create Quiz</a>
+          </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+  <!-- /.content-header -->
+
+
+<section class="content">
+    <div class="container-fluid">
+     
+      <div class="row">
+        <div class="card-body table-responsive">
+            <table class="table table-hover text-nowrap"  width="100%">
+              <thead>
+                <tr>
+                    <th>Quiz Title</th>
+                    <th>Status</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Total Marks</th>
+                    <th>Total question</th>
+                    <th>Code</th>
+                    <th>Attempts</th>
+                    <th>Action</th>
+                    
+                </tr>
+              </thead>
+              <tbody> 
+                  {% for row in quizzes.items %}
+                 <tr>  
+                    <td>{{row.QTitle}}</td>
+                    {% if row.QStatus %}
+                    <td>Open</td>
+                    {% else %}
+                    <td>Close</td>
+                    {% endif %}
+                    <td>{{row.QStartDate}}</td>
+                    <td>{{row.QEndDate}}</td>
+                    <td>{{row.QTMark}}</td>
+                    <td>{{row.QTQuestion}}</td>
+                    <td>{{row.QCode}}</td>
+                    <td>{{row.QAttempt}}</td>
+  
+                    <td>
+                        <form action="{{url_for('quiz_search')}}" id="questionS" method="POST">
+                          <a href="/editQ/{{row.Qid}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEditQuiz{{row.Qid}}">Edit</a>
+                          <input type="hidden" name="Qid" value="{{row.Qid}}">
+                          <button class="btn btn-primary btn-xs" type="submit">Question</button>    
+                          <a href="/deleteQuiz/{{row.Qid}}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalDeleteQuiz{{row.Qid}}">Delete</a>
+                        </form>
+                    </td>
+                    
+                  </tr>
+
+                  <!-- Modal Delete -->
+                  <div id="modalDeleteQuiz{{row.Qid}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">      
+                     <div class="modal-content">
+                        <form action="{{url_for('delete_quiz_data')}}" method="POST">
+
+                          <div class="modal-body">
+                            <h2 class="text-center">Are you sure delete it?</h2>
+                            <input type="hidden" name="Qid" value="{{row.Qid}}">
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>        
+
+                  <!-- Modal CONTAINER -->
+                  <!-- Modal Edit -->
+                  <div id="modalEditQuiz{{row.Qid}}" class="modal fade" role="dialog">
+                      <div class="modal-dialog">      
+                          <div class="modal-content">
+                            <div class="modal-header">
+                               <h4 class="modal-title">Update Quiz</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{url_for('editQuiz')}}" method="POST">
+                
+                                  <div class="form-group">
+
+                                     <label>Quiz Title:</label>
+                                      <input type="hidden"  name="Qid" value="{{row.Qid}}">
+                
+                                     <input type="text" class="form-control" name="name" value="{{row.QTitle}}" required>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label >Status</label>
+                                    <div >
+                                      <span for="">Open</span>
+                                      <input type="radio" name="status" id="open">
+                                
+                                      <span for="">Close</span>
+                                      <input type="radio" name="status" id="close" checked>
+                                    </div>
+                                  </div>
+                
+                
+                                  <div class="form-group">
+                                     <label>Code:</label>
+                                     <input type="text" class="form-control" name="password" value="{{row.QCode}}" readonly>
+                                  </div>
+                
+                
+                                  <div class="form-group">                      
+                                     <button class="btn btn-primary" type="submit">Update</button>
+                                  </div>
+                                </form>
+                            </div>
+                
+                
+                            <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                          </div>
+                      </div>
+                
+                  </div>
+
+                  {% endfor %}
+              </tbody>               
+
+            </table>
+            <ul class="pagination mx-auto">
+              {% if quizzes.has_prev %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('quiz_management', page_num=quizzes.prev_num) }}">Previous</a></li>
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">Previous</span>
+                {% endif %}
+              </li>
+            
+              {% for page in quizzes.iter_pages(left_edge=3,right_edge=3) %}
+              {% if page %}
+              <li class="page-item"><a class="page-link" href="{{url_for('quiz_management',quiz_pgnum=page)}}">{{page}}</a></li>
+              {% else %}
+              <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+              {% endif %}
+              {% endfor %}
+            
+              {% if quizzes.has_next %}
+              <li class="page-item"><a class="page-link" href="/quiz_management/{{quizzes.next_num}}">Next</a></li>
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">Next</span>
+                {% endif %}
+            </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /container fuiled -->
+</section>
+<!-- /content -->
+
+<div id="modalAddQuiz" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h4 class="modal-title">New Quiz Form</h4>
+        </div>
+
+        <div class="modal-body">
+          <form action="{{url_for('submitQuiz')}}" method="POST">
+            <div class="form-group">
+              <label>Quiz Title:</label>
+              <input type="text" class="form-control" name="name" value="" required>
+            </div>
+          
+            <div class="form-group">
+              <label>Status</label>
+              <div>
+                <span for="">Open</span>
+                <input type="radio" name="status" id="open" value="open">
+          
+                <span for="">Close</span>
+                <input type="radio" name="status" id="close" value="close" checked>
+              </div>
+            </div>
+           
+          
+            <div class="form-group">
+              <label>Code:</label>
+              {% if Qcode %}
+              <input type="text" class="form-control" id="quizCode" name="code" value="{{Qcode}}" readonly>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label>Start date</label>
+              <div class="row">
+                <div class="col">
+                  <input type="date" id="start-date" name="start-date" class="form-control" required>
+                </div>
+                <div class="col">
+                  <input type="time" id="start-time" name="start-time" class="form-control" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>End date</label>
+              <div class="row">
+                <div class="col">
+                  <input type="date" id="end-date" name="end-date" class="form-control" required>
+                </div>
+                <div class="col">
+                  <input type="time" id="end-time" name="end-time" class="form-control" required>
+                </div>
+                
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Attempts</label>
+              <input type="number" name="attempts" id="" min="1" value="1" style="width: 70px;" required>
+            </div>
+          
+          
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+     </div>
+  </div>
+</div>
+
+<script>
+var start = document.getElementById('start-date');
+var end = document.getElementById('end-date');
+
+start.addEventListener('change', function() {
+    if (start.value)
+        end.min = start.value;
+}, false);
+end.addEventListener('change', function() {
+    if (end.value)
+        start.max = end.value;
+}, false);
+ 
+function instructionSubmit(){
+  document.getElementById("instrucS").submit();
+}
+
+function questionSubmit(){
+  //alert("done")
+  document.getElementById("questionS").submit();
+}
+</script>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,98 @@
+{% extends 'base2.html' %}
+
+{% block title %}Ranking{% endblock %}
+
+{% block ranking %}
+nav-link active
+{% endblock %}
+
+{% block navback %}
+/home
+{% endblock %}
+
+{% block header %}Quiz Name{% endblock %}
+
+{% block content %}
+<div class="row my-3">
+    
+    <div class="small-box col col-10 mx-auto bg-yellow color-palette">
+        <div class="row">
+
+            <div class="col-5 m-2">
+                <h3 class="">Name: {{student1.name}}#{{rank1.attempted}}</h3>
+                <h5>Marks: {{rank1.rankingMark}}</h5> <span>Time: {{rank1.rankingTime}}s</span>
+            </div>
+            <div class="col-5 ml-auto ">
+                <img class="m-0 p-0 float-right" src="{{url_for('static',filename='/img/ranking/top1.png')}}" alt="" style="border: 1px dotted #000000; /*border: 1px solid #000000;*/
+            -webkit-border-radius: 50%;width:150px;height:150px;
+            border-radius: 50%;">
+            </div>
+        </div>
+    </div> 
+    
+    <div class="col-5 m-0 ml-auto bg-gray disabled color-palette">
+        
+        <div class="row">
+
+            <div class="col-5 m-2">
+                <h3 class="">Name: {{student2.name}}#{{rank2.attempted}}</h3>
+                <h5>Marks: {{rank2.rankingMark}}</h5> <span>Time: {{rank2.rankingTime}}s</span>
+            </div>
+            <div class="col-5 ml-auto ">
+                <img class="m-1 p-0 float-right" src="{{url_for('static',filename='/img/ranking/2.png')}}" alt="" style="width:140px;height:150px;">
+            </div>
+        </div>
+    </div> 
+
+    <div class="col-5 m-0 mr-auto bg-danger active color-palette">
+        
+        <div class="row">
+
+            <div class="col-5 m-2">
+                <h3 class="">Name: {{student3.name}}#{{rank3.attempted}}</h3>
+                <h5>Marks: {{rank3.rankingMark}}</h5> <span>Time: {{rank3.rankingTime}}s</span>
+            </div>
+            <div class="col-5 ml-auto ">
+                <img class="m-1 p-0 float-right" src="{{url_for('static',filename='/img/ranking/3.png')}}" alt="" style="width:150px;height:150px;">
+            </div>
+        </div>
+    </div> 
+
+</div>
+<div class="row">
+
+    
+</div>
+ 
+<div class="row">
+    <div class="card col">
+        <div class="card-body">
+            <table class="table table-hover text-nowrap">
+                <thead>
+                    <tr>
+      
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Answer Time</th>
+                        <th>Marks</th>
+    
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in result %}
+                    <tr>
+                        <td id="rank{{row.rank}}">{{row.rank}}</td>
+                        <td id="rankN{{row.rank}}">{{row.name}}#{{row.attempted}}</td>
+                        <td id="rankT{{row.rank}}">{{row.rankingTime}}s</td>
+                        <td id="rankM{{row.rank}}">{{row.rankingMark}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

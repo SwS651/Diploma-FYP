@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Welcome to the homepage!!!</title>
+    </head>
+    <body>
+        {% if username %}
+            <strong>Hello there, {{ username }}!</strong> It's {{ date.strftime("%A, %d %B, %Y at %X") }}.
+        {% else %}
+            What's your name? Provide it after /home/ in the URL.
+        {% endif %}
+        <div class="container">
+            <br>
+            <p>Click <a href="/logout">here</a> to logout.</p>
+            {% for message in get_flashed_messages() %}
+                {{ message }}
+            {% endfor %}
+
+            <br>
+            <br>
+            <ol>
+                {% for user in users %}
+                    <li>
+                        {{ user.username }}
+                        {{ user.password }} 
+                    </li>    
+                    
+                {% endfor %}
+            </ol>
+
+        </div>
+        <div>
+            <button><a href="/createQ">Create</a></button>
+            <button><a href="/uploadAcc">Upload Student List</a></button>
+            <button><a href="/instruction">instruction </a></button>
+            <button><a href="/cv2">UICreate </a></button>
+            <button><a href="/cv3">UICreate3 </a></button>
+        </div>
+    </body>
+</html>

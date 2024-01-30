@@ -1,0 +1,77 @@
+{% extends '/student_mode/studentBase.html' %}
+
+{% block title %}Gamified Quiz Management System{% endblock %}
+
+{% block dashboard %}
+nav-link active
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title text-xl">Account</h3>
+            <div class="card-tools">
+                <a type="button" href="/studentAccount" class="btn btn-sm bg-gradient-primary">Edit</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mx-auto">
+
+                <div class="col">
+                    <label for="">Name:</label><span class="ml-2">{{user.name}}</span>
+                </div>
+                <div class="col">
+                    <label for="">Email:</label> <span class="ml-2">{{user.email}}</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center text-xl">Quiz</h3>
+        </div>
+        <div class="card-body  table-responsive">
+            <table class="table table-hover text-nowrap">
+                <thead>
+                <tr>
+                    <!-- {% for header in headings %} --><!-- {% endfor %} -->
+                    <th>Quiz Code</th>
+                    <th>Quiz Name</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Mark</th>
+                    <th>Attempt</th>
+                    <th>Action</th>
+                    
+                    
+                </tr>
+                </thead>
+                <tbody>
+                    {% for row in quizs %}
+                    <tr>             
+                        <td>{{row.QCode}}</td>
+                        <td>{{row.QTitle}}</td>
+                        <td>{{row.QStartDate}}</td>
+                        <td>{{row.QEndDate}}</td>
+                        <td>{{row.QTMark}}</td>
+                        <td>{{row.QAttempt}}</td>
+                        <td>
+                            <a href="/enterCode" class="fas fa-play-circle" title="Take Quiz"></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+    function submitView(){
+        //alert("done")
+        document.getElementById("viewM").submit();
+    }
+
+</script>
+{% endblock %}

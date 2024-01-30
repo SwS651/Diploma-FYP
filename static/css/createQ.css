@@ -1,0 +1,249 @@
+/* this for createQ copy.html */
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #012646; 
+}
+
+body
+{
+    display: flex;
+    flex-flow:row wrap;
+    text-align: center;
+    justify-content: space-between;
+    margin: 0;
+}
+body>*
+{
+    padding: 10px;
+    margin: 1px;
+    flex: 1 100%;
+    border-radius:3px;
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    background-color: tomato;
+    height: 60px;
+}
+
+.header h1
+{font-size: 2em;}
+/* this for createQ copy.html */
+.mainContainer
+{
+    display: flex;
+    flex-direction: column;
+    background: deepskyblue;
+    height: 90vh;
+    font-size: 24px;
+    flex-grow: 2;
+}
+.quesContainer
+{
+    display: flex;
+    align-items: flex-start;
+    height: 50vh;
+    justify-content: center;
+    margin: 10px;
+}
+.quesContainer input
+{
+    font-size: 1em;
+    width: 90%;
+    height: 50px;
+    text-align: center;
+}
+.mainContainer .ansContainer{display: flex;}
+
+.ansContainer
+{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    flex-wrap: wrap;
+}
+
+/*Input*/
+.ansContainer .ansBox
+{
+    margin: 2px;
+    height: 45px;
+    width: 350px;
+}
+.type-ans{
+    max-height: fit-content;
+    overflow-y: auto;}
+.type-ans>div{
+    display: inline-block;
+}
+.ans{
+    width: 20px;
+    height: 20px;
+}
+.aside1
+{
+    background: rgba(255, 217, 0, 0.979);
+    flex-grow: 1;
+}
+
+.aside2{
+    background: rgb(255, 105, 180);
+    flex-grow: 1;
+}
+
+/*aside1 Question List Content*/
+.question-list
+{
+    background-color: rgba(214, 201, 13, 0.925);
+    position: relative;
+    min-width: 250px;
+    max-height: 500px;
+    overflow: scroll;
+    
+}
+.question-list div
+{
+    font-size: 2em;
+    height: 50px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.question-list ul{
+    padding: 0px;
+    text-align: center;}
+.question-list div:hover,.question-list li:hover
+{
+    background-color: rgb(148, 131, 34);
+}
+
+/*aside2*/
+.typeBox
+{
+    background: rgba(224, 47, 136, 0.884);
+    height: 20vh;
+    padding: 10px;
+}
+
+/*aside2 Properties*/
+.propertiesBox
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+.proper-content
+{
+    background-color: #f1f1f1;
+    height: 55vh;
+}
+.proper-content label{
+    display: block;
+    padding: 10px;
+}
+.option{
+    margin: 10px;
+    height: 40px;
+    width: 150px;
+    font-size: 1.2em;
+}
+
+
+/*Textarea*/
+.textarea{
+    background-color: #f1f1f1;
+    width: 90%;
+
+    min-height: 60px;
+
+    max-height:100px;
+    _height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    border: 1px solid #a0b3d6;
+    font-size: 1.1em;
+    line-height: 24px;
+    padding: 2px;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    border-color: rgba(82, 168, 236, 0.8);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+
+}
+.textarea:empty::before{
+    color: rgba(97, 97, 97, 0.479);
+    content: attr(placeholder);
+    font-size: 1.2em;
+}
+
+
+
+.mainContainer.instruction{
+    display: none;
+}
+.mainContainer.instruction.active{
+
+    display:flex;
+
+}
+.texteditor-btn{
+    margin: 10px;
+}
+#textarea{
+    font-size: 1.2em;
+    min-height: 500px;
+    background-color: #EFEFEF;	position: relative;	box-shadow: 10px 14px 5px 0px rgba(147, 147, 147, 0.53);
+    text-align: start;
+}
+
+
+
+
+
+
+
+
+@media all and (min-width:800px){
+    .mainContainer{
+        flex:3;
+    }
+    .mainContainer.instruction.active{
+        flex:3;
+    }
+    .aside1{
+        order: 1;
+    }
+    .aside2{
+        order: 2;
+    }
+    .mainContainer{
+        order: 2;
+    }
+    .mainContainer.instruction.active{
+        order:2;
+    }
+    /* .footer{
+        order: 4;
+    } */
+}
+
+@media all and (min-width: 600px){
+    .aside{
+        flex: 1;
+        width: 100%;
+    }
+}
+
+/* this for createQ copy.html */
+/* this for createQ copy.html */

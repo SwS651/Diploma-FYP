@@ -1,0 +1,41 @@
+{% extends '/gameplay/gamebase.html' %}
+
+{% block title %}Enter Code{% endblock %}
+
+
+{% block csslink %}{% endblock %}
+
+
+{% block content %}
+
+   <!-- Modal Enter code -->
+   <div id="modalreset" class="modal fade show" role="dialog" style="display: block;">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h4 class="modal-title">Enter the code to access the quiz</h4>
+            </div>
+   
+            <div class="modal-body">
+               <form action="start" method="POST">
+   
+                  <div class="form-group">
+                     <input type="text" class="form-control" name="code" value="">
+                  </div>
+                  {% if status %}
+                  <p>{{status}}</p> 
+                  {% endif %}
+                  <div class="form-group text-center">
+                 
+                     <a href="/studentHomepage" class="btn btn-primary">Back</a>
+                     <button type="submit"  class="btn btn-primary">Enter</button>
+                  </div>
+               </form>  
+            </div>
+
+   
+         </div>
+      </div>
+   </div>
+
+{% endblock %}

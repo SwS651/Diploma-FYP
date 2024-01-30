@@ -1,0 +1,59 @@
+{% extends '/student_mode/studentBase.html' %}
+
+{% block title %}View Attempts{% endblock %}
+
+{% block ranking %}
+nav-link active
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <a href="/ranking" class="fas fa-backspace"></a>
+        <h3 class="text-center">{{quiz.QTitle}}</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover text-nowrap"  width="100%">
+            <thead>
+                <tr>
+                    <!-- {% for header in headings %} --><!-- {% endfor %} -->
+                    <th>No</th>
+                    <th>Answer Time</th>
+                    <th>Marks</th>
+                    <th>Number of Attempts</th>
+                    <th>Action</th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rank %}
+                <tr>
+                
+                    <td>{{row.attempted}}</td>
+                    <td>{{row.rankingTime}}s</td>
+                    <td>{{row.rankingMark}}</td>
+                    <td>{{row.attempted}}</td>
+                    <td>
+                        <form action="{{url_for('viewAttemptReport')}}" id="viewReport" method="POST">
+                            <input type="hidden" name="Qid" value="{{row.Qid}}">
+                            <input type="hidden" name="Attempt" value="{{row.attempted}}">
+                            <button type="submit" class="fas fa-eye" title="View Reports"></button>
+                        </form>       
+                    </td>
+   
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function submitView(){
+        //alert("done")
+        document.getElementById("viewReport").submit();
+    }
+
+</script>
+
+{% endblock %}

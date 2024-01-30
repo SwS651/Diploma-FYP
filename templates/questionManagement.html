@@ -1,0 +1,254 @@
+
+{% extends 'base2.html' %}
+
+{% block title %}
+Question Management
+{% endblock %}
+
+{% block navback %}
+/quiz_management
+{% endblock %}
+
+{% block navli %}
+<li class="breadcrumb-item active">Question Management</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+    
+                <h3 class="card-title text-xl">Instruction</h3>
+                <div class="card-tools m-auto">
+                    <button class="bg-gray" id="insructionEditable" onclick="instructionEditable()">Edit </button>
+                </div>
+            </div>
+            <form action="saveInstructionQ" onsubmit="copyContent();" method="POST">
+                <div class="card-body">
+                    <div class="form-group ml-auto">
+                        <input type="file" id="uploadBtn" style="display: none;">
+                        <input type="file" name="file" id="uploadfile" style="display: none;" />
+                        <input type="file" name="file" id="downloadfile" style="display: none;" />
+    
+                        <div class="btn-group">
+                            <button type="button" onclick="exec(this)" id="bold" class="fas fa-bold"></button>
+                            <button type="button" onclick="exec(this)" id="italic" class="fas fa-italic"></button>
+                            <button type="button" onclick="exec(this)" id="underline" class="fas fa-underline"></button>
+                            <select id="fontsize" class="custom-select">
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="14">14</option>
+                                <option value="16">16</option>
+                                <option value="18">18</option>
+    
+                                <option value="20">20</option>
+                                <option value="22">22</option>
+                                <option value="24">24</option>
+                                <option value="26">26</option>
+                                <option value="28">28</option>
+                                <option value="36">36</option>
+                                <option value="48">48</option>
+                                <option value="72">72</option>
+    
+                            </select>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" onclick="exec(this)" id="justifyLeft" class="fas fa-align-left"></button>
+                            <button type="button" onclick="exec(this)" id="justifyCenter"
+                                class="fas fa-align-center"></button>
+                            <button type="button" onclick="exec(this)" id="justifyFull"
+                                class="fas fa-align-justify"></button>
+                            <button type="button" onclick="exec(this)" id="justifyRight"
+                                class="fas fa-align-right"></button>
+                        </div>
+    
+                        <div class="btn-group">
+                            <button type="button" onclick="exec(this)" id='indent' class="fas fa-indent"></button>
+                            <button type="button" onclick="exec(this)" id='outdent' class="fas fa-outdent"></button>
+                            <button type="button" onclick="exec(this)" id="insertOrderedList"
+                                class="fas fa-list-ol"></button>
+                            <button type="button" onclick="exec(this)" id="insertUnorderedlist"
+                                class="fas fa-list-ul"></button>
+                            <br />
+                            <button type="button" onclick="exec(this)" id="insertHorizontalRule"
+                                class="fas fa-ruler-horizontal"></button>
+                        </div>
+                        <div class="btn-group">
+                            
+                            <button type="button" onclick="exec(this)" id="undo"><i class="fas fa-undo"></i></button>
+                            <button type="button" onclick="exec(this)" id="redo" class="fas fa-redo"></button>
+                            <button type="button" onclick="exec(this,'<p>')" id="formatBlock"
+                                class="fas fa-paragraph"></button>
+                            <button type="button" onclick="createlink()" id='createLink' class="fas fa-link"></button>
+                            <button type="button" onclick="exec(this)" id='unlink' class="fas fa-unlink"></button>
+    
+                        </div>
+    
+    
+    
+                        <div class="btn-group">
+                            <button type="button" onclick="downloadInnerHtml('testss.txt');"
+                                class="fas fa-file-download"></button>
+                            <button type="button" onclick="openfile();" class="fas fa-file-upload"></button>
+                        </div>
+    
+    
+                    </div>
+                    <div class="form-group">
+    
+                        <div class="mx-2" id="textareaI" contentEditable="false" style="
+                        font-size: 1.2em;
+                        min-height: 500px;
+                        background-color: #EFEFEF;
+                        text-align: start;
+                        ">
+                        </div>
+                        <input id="hiddenTextarea" type=text name="instruction" hidden>
+    
+                    </div>
+    
+    
+    
+                </div>
+    
+                <div class="card-footer">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-secondary btn-lg " id="btnSave" hidden>Save</button>
+                    </div>
+                </div>
+            </form>
+    
+    
+        </div>
+    </div>
+</div>
+
+
+<!-- Profile Image -->
+<div class="row">
+    <div class="col">
+
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                {% if quiz %}
+                <h3 class="card-title">{{quiz.QTitle}}, <span>Code = <i>{{quiz.QCode}}</i></span></h3>
+                {% endif %}
+                <div class="card-tools">
+                    <form action="{{url_for('toCreateQuestionPage')}}" method="POST">
+                        <button type="submit" href="/createQuestion" class="btn btn-sm btn-primary">Add</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap"  width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Question</th>
+                            <th>Type</th>
+                            <th>Answer Option </th>
+                            <th>Answer Check</th>
+                            <th>Time</th>
+                            <th>Point</th>
+    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in quizQuestions %}
+                        <tr>
+                            <td>{{row.QQNum}}</td>
+                            <td>{{row.question}}</td>
+                            <td>{{row.QQType}}</td>
+                            <td>{{row.QQAOption}}</td>
+                            <td>{{row.QQACheck}}</td>
+                            <td>{{row.QQTime}}s</td>
+                            <td>{{row.QQMarks}}</td>
+    
+                            <td>
+                                <form action="questionEdit" id="questionE" method="POST">
+                                    <input type="hidden" name="QQid" value="{{row.QQid}}">
+                                    <button type="submit" class="btn btn-warning btn-xs">Edit</button>
+                                    <!-- jump to other page -->
+                                    <!-- HERE <a href="/questionEdit" class="btn btn-warning btn-xs" onclick="questionSubmit();">Edit</a>-->
+                                    <a href="/deleteQuiz/{{row.QQid}}" class="btn btn-danger btn-xs" data-toggle="modal"
+                                        data-target="#modalDeleteQuestion{{row.QQid}}">Delete</a>
+                                </form>
+                            </td>
+    
+                        </tr>
+    
+                        <!-- Modal Delete -->
+                        <div id="modalDeleteQuestion{{row.QQid}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{url_for('question_delete')}}" method="POST">
+    
+                                        <!-- HERE -->
+                                        <div class="modal-body">
+                                            <h2 class="text-center">Are you sure delete it?</h2>
+                                            <input type="hidden" name="QQid" value="{{row.QQid}}">
+                                        </div>
+    
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
+
+
+{% endblock %}
+
+{% block scriptTag %}
+
+<script>
+    var loatTxt =`{{instructions}}`
+    document.getElementById('textareaI').innerHTML =`{{instructions | safe}}`
+    
+    //document.getElementById('textareI').innerHTML =cmtxt.toString();
+    function questionSubmit(){
+        //alert("done")
+        document.getElementById("questionE").submit();
+    }
+
+    function copyContent(){
+        document.getElementById("hiddenTextarea").value = document.getElementById("textareaI").innerHTML;
+        return true
+    }    
+
+    function instructionEditable() {
+        var btnEdit = document.getElementById('insructionEditable')
+        var txtArea = document.getElementById('textareaI')
+        var btnSave = document.getElementById('btnSave');
+        if (txtArea.contentEditable=="false") {
+            txtArea.contentEditable="true"
+            btnEdit.setAttribute("class","bg-primary")
+            btnSave.setAttribute("class","btn btn-lg btn-primary")
+            btnEdit.hidden=true
+            btnSave.hidden=false
+        }else{
+            txtArea.contentEditable="false";
+            btnEdit.setAttribute("class","bg-gray")
+        }
+    }
+</script>
+
+<script src="{{url_for('static', filename = '/js/texteditor.js')}}"></script>
+{% endblock %}

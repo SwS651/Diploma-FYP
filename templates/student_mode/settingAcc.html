@@ -1,0 +1,69 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+account
+{% endblock %}
+
+{% block navback %}
+/studentHomepage
+{% endblock %}
+
+{% block navli %}
+<li class="breadcrumb-item active">Account Setup</li>
+{% endblock %}
+
+{% block content %}
+
+<div id="card">
+         
+    <div class="card-header">
+        
+            <h4 class="text-title">Update Information</h4>
+    </div>
+    <form id="editAccount" action="{{url_for('editAcc')}}" method="POST">
+        <div class="card-body">
+                <div class="form-group">
+                <label>Name:</label>
+                    <!--<input type="hidden"  name="id" value="{row.id}}">-->
+                <input type="text" class="form-control" name="name" value="{{user.name}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input class="form-control" type="email" name="email" value="{{user.email}}" required>
+                </div>
+
+                <input type="hidden" class="form-control" id="changePw" name="changePw" value="false">
+                <div class="form-group">
+                    <input type="checkbox" name="setpassword" id="setpassword" onchange="checkedpass()">
+                    <label >Set Password</label>
+                </div>
+
+                <div id="changePwd" hidden>
+                    <div class="form-group">
+                        <label>Current Password:</label>
+                        
+                        <input type="password" class="form-control" name="password" value="" required>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label>New Password:</label>
+                        <input type="password" id="newPwd" class="form-control" name="repassword" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password:</label>
+                        <input type="password" id="confirmPwd" class="form-control" name="conpassword" value="" required>
+                    </div>
+                    <p id="warningText" class="text-danger" hidden>Please enter the same password in both fields.</p>
+                </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group">                      
+                <button class="btn btn-primary" type="button" onclick="submitForm()">Update</button>
+            </div>
+        </div>
+
+    </form>
+ </div>
+{% endblock %}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{%block title%}{%endblock%}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/css/adminlte.min.css')}}">
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+      <a href="{{url_for('student_Home')}}" class="navbar-brand">
+        <img src="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/img/LogoQV.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">QuizNova</span>
+      </a>
+
+      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/studentHomepage" class="nav-link">Home</a>
+          </li>
+          {% if user.role == "Lecturer" %}
+          <li class="nav-item">
+            <a href="/home" class="nav-link">Exit Student Mode</a>
+          </li>
+          {% endif%}
+        </ul>
+
+      </div>
+
+      <!-- Right navbar links -->
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        
+        <li class="user-panel mt-1 pb-1 mb-1 d-flex"> 
+          <div class="image">
+            <img src="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/img/avatarStudent.png')}}" class="img-circle elevation-1" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="/studentAccount" class="d-block">{{user.name}}</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout" role="button" data-toggle="modal" data-target="#modalLogout">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"> Welcome <u>{{user.name}}</u>!!!</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                  <!-- Add icons to the links using the .nav-icon class
+                       with font-awesome or any other icon font library -->
+                  <li class="nav-item">
+                    <a href="/studentHomepage" class="{% block dashboard %} nav-link {% endblock %}">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>
+                        Dashboard
+                      </p>
+                    </a>
+                  </li>
+                  
+                  <li class="nav-item">
+                    <a href="/ranking" class="{% block ranking%} nav-link {% endblock %}">
+                      <i class="nav-icon fas fa-medal"></i>
+                      <p>
+                        Ranking
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/batches" class="{% block achievement%} nav-link {% endblock %}">
+                      <i class="nav-icon fas fa-medal"></i>
+                      <p>
+                        Achievements
+                      </p>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col">
+              
+            {% block content %}
+            {% endblock %}
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Powered by <b>Team Supernova</b>
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2021-2022.</strong> All rights reserved.
+  </footer>
+
+</div>
+<!-- ./wrapper -->
+<div id="modalLogout" class="modal fade" role="dialog">
+  <div class="modal-dialog"> 
+    <div class="modal-content">
+      <form action="/logout">
+
+        <div class="modal-body">
+          <h2 class="text-center">Are you sure want to logout?</h2>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Yes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
+
+
+<!-- REQUIRED SCRIPTS -->
+{% block scriptTag %}{% endblock %}
+<!-- jQuery -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/dist/js/demo.js')}}"></script>
+</body>
+</html>

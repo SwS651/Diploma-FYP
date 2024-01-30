@@ -1,0 +1,158 @@
+{% extends '/gameplay/gamebase.html' %}
+
+{% block title %}Game Starting{% endblock %}
+
+
+{% block csslink %}
+
+
+<style>
+
+
+.dragarea,.droparea {height:auto;padding:10px;border:1px dashed #aaaaaa;}
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+<audio id="bgm" autoplay loop>
+   <source src="{{url_for('static',filename='/music/msc2.mp3')}}" type="audio/mpeg">
+</audio>
+<button id="btn-bgm" class="fas fa-volume-up" onclick="mute()"></button>
+<div class="container">
+   <div class="content-header">
+      <div class="container-fluid">
+         <div class="card-header">
+                <div class="card-title">
+ 
+                    <h1><b>{{quiz.QTitle}}</b></h1>
+                    <input type="hidden" id="qtans" value="{{quiz.QTQuestion}}">
+                    <input type="hidden" id="quizTitle" value="{{quiz.QTitle}}">
+
+                </div>
+                <div class="card-tools">
+                    <h3 > Time: <span id="timer_sec">0</span></h3>
+                    {% if attempts >= 0 %}
+                    <h6>Attempted Times: {{attempts}}</h6>
+                    {% endif %}
+                    {% if quiz %}
+                    <h6>Attempt Limits: {{quiz.QAttempt}}</h6>
+                    {% endif %}
+                </div>
+            </div>
+      </div>
+   </div>
+   <form id="reportForm1" action="{{url_for('submitReport')}}" onsubmit="submit_result();" method="POST">
+      <input type="hidden" id="hiddenQuizReport" name="hiddenQuizReport" value="None1">
+      <input type="hidden" id="hiddenQuizRatio" name="hiddenQuizRatio" value="0/0">
+      <input type="hidden" id="hiddenTotalTime" name="hiddenTotalTime" value="0">
+      <input type="hidden" id="hiddenTotalPoint" name="hiddenTotalPoint" value="0">
+   </form>
+   <div class="content">
+      <div class="card">
+         <div class="card-header">
+            <h3 class="text-center" id="question-title" >Instruction Page</h3>
+         </div>
+      
+
+         <div class="card-body" style="font-size: 1.6em;">
+             {% if quiz %}
+            <div class="" id="instructionI" style="">           
+            </div>
+            {% endif %} 
+
+            
+         </div>
+         <div class="card-footer">
+            <div id="nextDiv" class="text-center">
+               <!-- <a href="/questionPage" class="btn btn-secondary">Next</a> -->
+               {% if log == "ok" %}
+               <button  class="btn btn-secondary" id="btnstart" onclick="checkAnswer()">Start</button>
+               {% else %}
+               <h1>Out of Attempts</h1> 
+               <br>
+               <a href="/studentHomepage" class="btn btn-primary">Back</a>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div id="modalReport" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-xl">
+         <div class="modal-content">
+               <div class="modal-header">
+                  <h2 class="text-center">Detail</h2>
+               </div>
+               <!-- HERE -->
+               <div class="modal-body" >
+                  <div id="reportBody" style="max-height:500px; overflow-y:auto;">
+                  </div>
+               </div>
+
+               <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<div>
+{% for row in questions %}
+   <input type="hidden" id="qnum{{row.QQNum}}" value="{{row.QQNum}}">
+   <input type="hidden" id="question{{row.QQNum}}" value="{{row.question}}">
+   <input type="hidden" id="qtype{{row.QQNum}}" value="{{row.QQType}}">
+   <input type="hidden" id="qansOption{{row.QQNum}}" value="{{row.QQAOption}}">
+   <input type="hidden" id="qansCheck{{row.QQNum}}" value="{{row.QQACheck}}">
+   <input type="hidden" id="qtime{{row.QQNum}}" value="{{row.QQTime}}">
+   <input type="hidden" id="qmark{{row.QQNum}}" value="{{row.QQMarks}}">
+{% endfor %}
+</div>
+{% endblock %}
+
+
+{% block scriptTag %}
+
+{{questions.QQAOption}}
+<script src="{{url_for('static',filename='/js/quizplay.js')}}"></script>
+<script src="{{url_for('static',filename='/js/texteditor.js')}}"></script>
+
+<script>
+   var btnBgm = document.getElementById('btn-bgm');
+   
+   let counter;
+   let timevalue = parseInt(timeCount.textContent);
+
+   window.onload = function () {
+   //    startTimer(timevalue);
+       bgm.volume = 0.2;
+        document.getElementById('instructionI').innerHTML = `{{ quiz.QInstruction | safe }}`
+    }
+
+   function startTimer(time) {
+      counter = setInterval(timer, 1000);
+      function timer() {
+         timeCount.textContent = time;
+         time--;
+
+         if(time==-1){
+            document.getElementById("btnNext").click()
+         }
+      }
+   }
+
+   function mute() {
+      var bgm = document.getElementById('bgm');
+      if(bgm.muted){
+         bgm.muted=false;
+      }else
+         bgm.muted=true;
+   }
+
+
+
+</script>
+{% endblock %}

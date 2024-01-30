@@ -1,0 +1,59 @@
+{% extends '/student_mode/studentBase.html' %}
+
+{% block title %}Gamified Quiz Management System{% endblock %}
+
+{% block ranking %}
+nav-link active
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="text-center text-xl">Quiz</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover text-nowrap">
+            <thead>
+            <tr>
+                <th>Quiz Code</th>
+                <th>Quiz Name</th>
+                <th>Action</th>
+                
+                
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in quizs %}
+                <tr>
+                
+                    <td>{{row.QCode}}</td>
+                    <td>{{row.QTitle}}</td>
+                    <td>
+                        <div class="row">
+                            <form action="{{url_for('viewAttempt')}}" id="viewM" method="POST">
+                                <input type="hidden" name="Qid" value="{{row.Qid}}">
+                                <!-- if -->
+                                <button type="submit" class="fas fa-eye bg-primary" title="View Marks" ></button>
+                            </form>&nbsp;&nbsp;
+                            <form action="{{url_for('ranking')}}" id="viewR" method="POST">
+                                <input type="hidden" name="Qid" value="{{row.Qid}}">
+                                <button type="submit" class="btn btn-primary btn-xs"><i class="fas fa-medal"
+                                    title="View Ranking"></i></button>
+                            </form> 
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function submitView(){
+   
+        document.getElementById("viewR").submit();
+    }
+
+</script>
+{% endblock %}

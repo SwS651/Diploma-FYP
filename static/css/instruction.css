@@ -1,0 +1,28 @@
+.instruction,
+.instruction::before,
+.instruction::after{
+    box-sizing: border-box;
+}
+
+.tool-list{
+    display: flex;
+    flex-flow: row nowrap;
+    list-style: none;
+    /* padding: 0;
+    margin: 1rem; */
+}
+
+.fas{
+    display: block;
+    border: none;
+    padding: .5rem;
+    font-size: 20px;
+}
+
+#textarea{
+    min-height: 400px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19)， 0 6px 6px rgba(0,0,0,0.23);
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #EFEFEF;	position: relative;	box-shadow: 10px 14px 5px 0px rgba(147, 147, 147, 0.53);
+}

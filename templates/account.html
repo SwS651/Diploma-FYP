@@ -1,0 +1,138 @@
+
+{% extends 'base2.html' %}
+
+{% block title %}
+account
+{% endblock %}
+
+{% block navback %}
+/home
+{% endblock %}
+
+{% block navli %}
+<li class="breadcrumb-item active">Account Setup</li>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    
+</div>
+
+<!-- Profile Image -->
+<div class="card card-primary card-outline register-box mx-auto">
+   <div class="card-header">
+      <div class="card-tools">
+
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit">Edit</button>
+      </div>
+   </div>
+   <div class="card-body">
+      
+      {% if name %}
+      <h3 class="profile-username text-center">{{name}}</h3>
+      {% endif %}
+      {% if role %}
+      <p class="text-muted text-center">{{role}}</p>
+      {% endif %}
+      <ul class="list-group list-group-unbordered mb-3">
+         <li class="list-group-item">
+            {% if email %}
+            <b>Email</b> <p class="float-right">{{email}}</p>
+            {% endif %}
+         </li>
+         <li class="list-group-item">            
+            <b>Password</b> <input type="password" class="float-right" value="{{password}}" style="text-align: end; width: 50px;" disabled>
+         </li>
+
+      </ul>
+
+      <a href="/logout" class="btn btn-primary btn-block" data-toggle="modal"
+         data-target="#modalLogout"><b>Logout</b></a>
+   </div>
+   <!-- /.card-body -->
+</div>
+  <!-- /.card -->
+
+<!--Modal Ask Logout -->
+<div id="modalLogout" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <form action="/logout">
+
+            <div class="modal-body">
+               <h2 class="text-center">Logout?</h2>
+            </div>
+
+            <div class="modal-footer">
+               <button type="submit" class="btn btn-danger">Yes</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+ <!-- /Modal -->
+
+
+ <!-- Modal Edit Username,password and Email -->
+<div id="modalEdit" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Account</h4>
+         </div>
+
+         <div class="modal-body">
+            <form id="editAccount" action="editAccount" method="POST">
+               <div class="form-group">
+                  <label>Name:</label>
+                  {% if name %}
+                  <input type="text" class="form-control" name="name" value="{{name}}" required>
+                  {% endif %}
+               </div>
+               
+               <div class="form-group">
+                  <label>Email:</label>
+                  {% if email %}
+                  <input type="text" class="form-control" name="email" value="{{email}}" required>
+                  {% endif %}
+               </div>
+
+               <input type="hidden" class="form-control" id="changePw" name="changePw" value="false">
+               <div class="form-group">
+                  <input type="checkbox" name="setpassword" id="setpassword" onchange="checkedpass()">
+                  <label>Set Password</label>
+               </div>
+
+               <div id="changePwd" hidden>
+                  <div class="form-group">
+                     <label>Current Password:</label>
+                     <input type="password" class="form-control" name="password" value="" required>
+                  </div>
+                  <div class="form-group">
+                     <label>New Password:</label>
+                     <input type="password" id="newPwd" class="form-control" name="repassword" value="" required>
+                  </div>
+                  <div class="form-group">
+                     <label>Confirm Password:</label>
+                     <input type="password" id="confirmPwd" class="form-control" name="conpassword" value="" required>
+                  </div>
+                  <p id="warningText" class="text-danger" hidden>Please enter the same password in both fields.</p>
+               </div>
+
+
+               <div class="form-group">
+                  <button class="btn btn-primary" type="button" onclick="submitForm()">Update</button>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>QuizNova Login Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/css/adminlte.min.css')}}">
+  <style>
+
+  </style>
+</head>
+
+<body class="hold-transition login-page" style="background-image: url('../static/AdminLTE-3.1.0/dist/img/logoQV.png');background-repeat: no-repeat; background-position: center;">
+  
+  <div class="login-box" id="login-box" style="opacity: 0.8;" onmouseover="focusBox(this)" onmouseout="lossfocus(this)">
+    <div class="card card-outline card-info">
+      <div class="card-header text-center">
+      <h3><b>SIGN IN</b></h3>
+      </div>
+
+      <div class="card-body">
+        <form action="" method="post">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" value="{{request.form.email }}"  placeholder="Email" name="email" autocomplete="off">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control" value="{{request.form.password }}" placeholder="Password" name="password" >
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+              {% if error %}
+              <p class="error"><strong>Error:</strong> {{ error }}</p>
+              {% endif %}
+              {% for message in get_flashed_messages() %}
+              {{ message }}
+              {% endfor %}
+              <div class="row">
+                <!-- /.col -->
+                <div class="mx-auto">
+                  <button type="submit" class="btn bg-gradient-primary btn-lg ">Sign In</button>
+                </div>
+                <!-- /.col -->
+              </div>
+        </form>
+      </div>
+    </div>
+    
+    
+
+  </div>
+
+  <!-- jQuery -->
+  <script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/jquery/jquery.min.js')}}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{url_for('static', filename = '/AdminLTE-3.1.0//plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{url_for('static', filename = '/AdminLTE-3.1.0/dist/js/adminlte.min.js')}}"></script>
+</body>
+<script>
+  function focusBox(e) {
+  e.style.opacity=1;
+  }
+  function lossfocus(e) {
+  e.style.opacity=0.8;
+  }
+</script>
+</html>

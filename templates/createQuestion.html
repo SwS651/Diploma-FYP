@@ -1,0 +1,217 @@
+{% extends 'base2.html' %}
+
+{% block title %}CreateQuiz{% endblock %}
+
+{% block navback %}
+/quiz_search
+{% endblock %}
+
+{% block csslink %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    
+<!-- <link rel="stylesheet" href="{{url_for('static', filename = '/css/createQ.css')}}"> -->
+<link rel="stylesheet" href="{{url_for('static', filename = '/css/instruction.css')}}">
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{quiz.QTitle}}</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Manage</a></li>
+                        <li class="breadcrumb-item active">Create Quiz</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <div class="content">
+        <div class="container">
+            <div class="card-body" id="questionContainer">
+                <form action="{{url_for('submitCreatedQuestion')}}" method="POST">
+                    <div class="row"> 
+                        <!-- Question Form -->
+                        <div class="col">
+                            <!-- [Question Box] -->
+                            <div class="card card-outline" name="question" id="question 1">
+
+                                <div class="card-header">
+                                    {% if qnum %}
+                                    <h4 class="text-center" id="form-Title">*Question {{qnum}}</h4>
+                                </div> 
+                                <!--get hidden values <input type="text" name="checkText" hidden>-->
+                                <input type="hidden" id="totalOption123" name="totalOption123" value="4">
+                                <input type="hidden" id="hiddenTime" name="hiddenTime" value="10">
+                                <input type="hidden" id="hiddenType" name="hiddenType" value="MCQ">
+                                <input type="hidden" id="hiddenPoint" name="hiddenPoint" value="0">
+                                <input type="hidden" id="qqnum" name="qqnum" value={{qnum}}>
+                                <input type="hidden" id="qquestion" name="qquestion" value="">
+                                <input type="hidden" id="hiddenAns" name="hiddenAns" value="">
+                                <input type="hidden" id="answerText" name="answerText" value="">
+                                <input type="hidden" id="checkText" name="checkText" value="">
+                                {% endif %}
+
+                                <div class="card-body">
+                                    <!-- Question Textarea -->
+                                    <div class="form-group">
+                                        <textarea rows="3" class="form-control" id="ques-Text" placeholder="Enter question..." style="margin-top: 0px; margin-bottom: 0px; height: 84px;" required></textarea>
+                                    </div>
+
+                                    <div id="answerOption">
+                                        <!-- Answer option boxes -->
+                                        <div class="input-group" style="margin-bottom: 10px;">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input type="radio" id="answerCheck" name="ans" value="1">
+                                                </span>
+                                            </div>
+                                            <input name="answerContent" id="1" type="text" class="form-control" required>
+                                        </div>
+
+                                        <div class="input-group" style="margin-bottom: 10px;">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input type="radio" id="answerCheck" name="ans" value="2">
+                                                </span>
+                                            </div>
+                                            <input name="answerContent" id="2" type="text" class="form-control" required>
+                                        </div>
+
+                                        <div class="input-group" style="margin-bottom: 10px;">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input type="radio" id="answerCheck" name="ans" value="3">
+                                                </span>
+                                            </div>
+                                            <input name="answerContent" id="3" type="text" class="form-control" required>
+                                        </div>
+
+                                        <div class="input-group" style="margin-bottom: 10px;">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input type="radio" id="answerCheck" name="ans" value="4">
+                                                </span>
+                                            </div>
+                                            <input name="answerContent" id="4" type="text" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Properties -->
+                                    <div class="row" id="properties">
+                                        <div class="col-sm-4 col-md-2">
+                                            <label for="">Time</label>
+                                            <div class="form-group">
+                                                <select class="form-control" id="time">
+                                                    <option value="10">10s</option>
+                                                    <option value="15">15s</option>
+                                                    <option value="30">30s</option>
+                                                    <option value="45">45s</option>
+                                                    <option value="60">1min</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4 col-md-2">
+                                            <label for="">Type</label>
+                                            <div class="form-group">
+                                                <select class="form-control" id="typeOfAnswer" onchange="typeChange()">
+                                                    <option value="radio">MCQ</option>
+                                                    <option value="checkbox">Multiple Selection</option>
+                                                    <option value="fill">Short Answer</option>
+                                                    <!--idk-->
+                                                    <option value="Matching">Matching</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="">Point</label>
+                                            <input type="number" class="form-control" id="point" value="1" style="width: 66px;" min=1>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="">Answer Option</label>
+                                            <div class=" row form-group">
+                                                <button type="button" class="fas fa-minus" id="dec" onclick="btnAnsOption(this)"></button>
+                                                <input type="number" id="showNumOption" name="showNumOption" disabled style="width: 30px;" value="4">
+                                                <button type="button" class="fas fa-plus" id="inc" onclick="btnAnsOption(this)"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/.row-->
+                                </div>
+
+                            </div>
+                            <!--/.card-outline-->
+                        </div>
+                    </div>
+
+                    <div class="add-question">
+                        <div class="form-group">
+                            <button type="submit" class="btn-block" id="addQues" onclick="addQuestion();">Add Question</button>
+                        </div>
+                    </div>
+                </form>
+            </div> 
+        </div> 
+    </div>              
+</div>
+
+<script src="{{url_for('static', filename = '/js/question.js')}}"></script>
+
+<script>
+    function addQuestion()
+    {
+        document.getElementById("totalOption123").value = document.getElementsByName('answerContent').length;//ansNum.toString();
+        document.getElementById("hiddenTime").value = document.getElementById("time").value;
+        document.getElementById("hiddenType").value = document.getElementById("typeOfAnswer").value;
+        document.getElementById("hiddenPoint").value = document.getElementById("point").value;
+        document.getElementById("qquestion").value = document.getElementById("ques-Text").value;
+
+        var answerC = ""
+        let anstype = document.getElementById('typeOfAnswer').value
+        var ansText = ""
+        /*/  Get Answer Check   /*/
+        var ansCheck = document.querySelectorAll('#answerCheck')
+        for (let i = 0; i < ansCheck.length; i++) {
+            if(anstype=="radio" || anstype=="checkbox")
+            {
+                if(ansCheck[i].checked)
+                    answerC = answerC + "True;"
+                else
+                    answerC = answerC + "False;"
+            }
+            else if (anstype =="Matching")
+                answerC = answerC + ansCheck[i].value +";"
+        }
+
+        document.getElementById('checkText').value = answerC
+        var values2 = $('input[name="answerContent"]').map(function(){
+        return this.value
+        }).get();
+
+        
+        for (let y = 0; y < ansCheck.length; y++) {
+            ansText = ansText + values2[y].toString() +";"
+        }
+        document.getElementById('answerText').value = ansText
+
+        
+        return true;
+    }
+
+</script>
+
+{% endblock %}

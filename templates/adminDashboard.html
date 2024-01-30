@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block dashboard %}
+nav-link active
+{% endblock %}
+
+{% block title %}
+Quiz Dashboard
+{% endblock %}
+
+{% block content %}
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+  
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+         
+          <div class="row">
+
+            <!-- Student box -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3>Students</h3>
+                  <p>Registrations</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="{{url_for('student_management')}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+
+            </div>
+            <!-- ./col -->
+
+            <!-- Quiz box -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-danger">
+                <div class="inner">
+                  <h3>Quiz</h3>
+  
+                  <p>Create</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-plus"></i>
+                </div>
+                <a href="/quiz_management" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+          </div>
+          <!-- /.row -->
+
+          <div class="row">
+            <div class="col">
+          
+              <!-- Table -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="text-center">View Attempts History</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Quiz</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Marks</th>
+                        <th>Attempts</th>
+                        <th>Action</th>
+          
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for quiz in quizzes.items%}
+                      <tr>
+                        <td>{{quiz.QTitle}}</td>
+                        <td>{{quiz.QStartDate}}</td>
+                        <td>{{quiz.QEndDate}}</td>
+                        <td>{{quiz.QTMark}}</td>
+                        <td>{{quiz.QAttempt}}</td>
+                        <td>
+                          <div class="row">
+
+                            <form action="{{url_for('viewStudentAttempt')}}" id="viewStudent" method="POST">
+                              <input type="hidden" name="Qid" value="{{quiz.Qid}}">
+                              <button type="submit" class="btn btn-primary btn-xs mx-1" title="view more"><i
+                                class="fas fa-newspaper"></i></button>
+                              </form>
+                              <form action="{{url_for('viewStudentRanking')}}" id="viewStudent" method="POST">
+                                <input type="hidden" name="Qid" value="{{quiz.Qid}}">
+                                <button type="submit" class="btn btn-primary btn-xs"><i class="fas fa-medal"
+                                  title="view ranking"></i></button>
+                                </form>
+                          </div>
+                                
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+          
+          
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <ul class="pagination">
+                    {% if quizzes.has_prev %}
+                     <li class="page-item"><a class="page-link" href="{{ url_for('home', page_num=quizzes.prev_num) }}">Previous</a></li>
+                    {% else %}
+                     <li class="page-item disabled"><span class="page-link">Previous</span>
+                    {% endif %}
+                     </li> 
+
+                    {% for page in quizzes.iter_pages(left_edge=3,right_edge=3) %}
+                    {% if page %}
+                      <li class="page-item"><a class="page-link" href="{{url_for('home',page_num=page)}}">{{page}}</a></li>
+                    {% else %}
+                    <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if quizzes.has_next %}
+                    <li class="page-item"><a class="page-link" href="/home/{{quizzes.next_num}}">Next</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next</span>
+                    {% endif %}
+                  </ul>
+                </div>
+                  <!-- /.card-footer -->
+              </div>
+              <!-- /.card -->
+            </div>
+              <!-- /.col -->
+          </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+{% endblock %}
+    

@@ -1,0 +1,49 @@
+{% extends '/student_mode/studentBase.html' %}
+
+{% block title %}View Reports{% endblock %}
+
+{% block ranking %}
+nav-link active 
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <a href="/ranking" class="fas fa-backspace"></a>
+        <h3 class="text-center">{{quiz.QTitle}}</h3>
+    </div>
+    <div class="card-body">
+
+        <table class="table table-hover text-nowrap"  width="100%">
+            <thead>
+                <tr>
+                    <!-- {% for header in headings %} --><!-- {% endfor %} -->
+                    <th>No</th>
+                    <th>Question</th>
+                    <th>Your Answer</th>
+                    <th>Correct Answer</th>
+                    <th>Time Taken</th>
+                    <th>Marks</th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in score %}
+                <tr>
+                
+                    <td>{{row.QQNum}}</td>
+                    <td>{{row.SQuestion}}</td><!---->
+                    <td>{{row.userAns}}</td>
+                    <td>{{row.QAns}}</td>
+                    <td>{{row.quizTime}}s</td>
+                    <td>{{row.QQStuMarks}}</td>         
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+</div>
+
+{% endblock %} 

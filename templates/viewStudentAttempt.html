@@ -1,0 +1,92 @@
+
+{% extends 'base2.html' %}
+
+{% block title %}
+view attempts
+{% endblock %}
+
+{% block navback %}
+/home
+{% endblock %}
+
+{% block header %}
+View Attempts
+{% endblock %}
+
+
+{% block content %}
+<!-- Table -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="text-center">{{quiz.QTitle}}</h3>
+        
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <table class="table table-hover text-nowrap">
+         <thead>
+            <tr>
+                <!-- {% for header in headings %} --><!-- {% endfor %} -->
+                <th>No</th>
+                <th>Name</th>       
+                <th>Attempt Number</th>
+                <th>Action</th>
+                
+            </tr>
+            </thead>
+            <tbody>  
+            {% for row in results %}
+            <tr>
+  
+                <td>{{row.rank}}</td>
+                <td>{{row.name}}#{{row.attempted}}</td>
+                <td>{{row.attempted}}</td>
+                <td>
+                    <a href="" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modalStudentShow{{row.id}}{{row.rank}}">show</a>
+                </td>
+            </tr>
+    
+             <div id="modalStudentShow{{row.id}}{{row.rank}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">      
+                   <div class="modal-content">
+                      <div class="modal-header">
+                         <h4 class="modal-title">Information</h4>
+                      </div>
+    
+                      <div class="modal-body">
+                         <div class="form-group">
+                            <label>No.</label>
+                             <span>{{row.rank}}</span>
+                         </div>
+                             
+                         <div class="form-group">
+                            <label>Name:</label>
+                             <span>{{row.name}}</span>
+                         </div>
+    
+                         <div class="form-group">
+                            <label>Marks:</label>
+                            <span>{{row.rankingMark}}</span>
+                         </div>
+           
+           
+                         <div class="form-group">
+                            <label>Complete time:</label>
+                            <span>{{row.rankingTime}}s</span>
+                         </div>
+                      </div>
+    
+                      <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+    
+                   </div>
+                </div>
+           
+             </div>
+            {% endfor %}
+            </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

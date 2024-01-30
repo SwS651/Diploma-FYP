@@ -1,0 +1,139 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+Registeration Page
+{% endblock %}
+
+{% block navback %}
+/student_management
+{% endblock %}
+
+{% block content %} 
+
+<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="content-importCSV-tab-tab" data-toggle="pill" href="#content-importCSV-tab" role="tab" aria-controls="content-importCSV-tab" aria-selected="false">Import with CSV</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="content-form-tab-tab" data-toggle="pill" href="#content-form-tab" role="tab" aria-controls="content-form-tab" aria-selected="true">Form</a>
+  </li>  
+
+</ul>
+<div class="tab-content" id="custom-content-below-tabContent">
+  <div class="tab-pane fade" id="content-form-tab" role="tabpanel"
+    aria-labelledby="content-form-tab-tab">
+  
+    <div class="content container-fluid register-box">
+      <form action="{{url_for('add_student_data')}}" method="post">
+        <div class="card my-5">
+          <div class="card-header">
+            <h3 class="text-center">Register</h3>
+          </div>
+          <div class="card-body">
+    
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input class="form-control" type="text" name="name" id="" placeholder="Student Name..." required>
+    
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input class="form-control" type="email" name="email" id="" placeholder="123@edu.com..." required>
+    
+            </div>
+    
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
+              </div>
+              <input class="form-control" type="password" name="password" id="" placeholder="Password..." required>
+    
+            </div>
+          </div>
+    
+          <div class="card-footer">
+            <div class="text-center">
+              <button type="submit" class="btn bg-gradient-purple">Register</button>
+            </div>
+          </div>
+    
+        </div>
+      </form>
+    
+    
+    </div>
+  
+  </div>
+  <div class="tab-pane fade show active mb-3" id="content-importCSV-tab" role="tabpanel" aria-labelledby="content-importCSV-tab-tab">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">x</span>
+      </button>
+  
+      {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <form class="" action="registerStudent" method="post">
+      <div class="input-group my-3 w-50 mx-auto">    
+        <div class="custom-file">
+          <label class="custom-file-label" >Choose File</label>
+          <input class="custom-file-input" type="file" id="formFile" name="csvfile" required>
+        </div>
+        <input type="submit" class="float-right" name="" value="Submit"> 
+      </div>
+
+      
+         
+    </form>
+    <div class="m-3">
+      <!-- This is table for CSV data -->
+      <table class="table table-hover text-nowrap text-center">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          {% if row[0] == "Username" or row[1] == "Email" or row[2] == "Password" or row[3] == "Role"%}
+          {% else %}
+          <tr>
+    
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[3]}}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+    
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+
+{% endblock %}
+
+{% block scriptTag %}
+
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script src="{{url_for('static', filename = '/AdminLTE-3.1.0/plugins/bootstrap/js/bootstrap.js')}}"></script>
+<script>
+  $(function (){
+    bsCustomFileInput.init();
+  });
+</script>
+{% endblock %}

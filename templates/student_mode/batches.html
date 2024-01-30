@@ -1,0 +1,137 @@
+{% extends 'base2.html' %}
+
+{% block title %}Your Achievement{% endblock %}
+
+{% block content_header %}Your Achievements{% endblock%}
+
+{% block navback %}/studentHomepage{% endblock %}
+
+{% block content %}
+<div class="row mx-3 my-5">
+    <div class="col-md-3 col-lg-4 col-12">
+        {% if Q1 != None %}
+        <div class="info-box bg-gradient-info">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts1.jpeg')}}" alt="" 
+                ></span>
+        {% else %}
+        <div class="info-box bg-gradient-gray">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts1.jpeg')}}" alt="" style="filter: grayscale(100%);"
+            style="width: 130px; height: 100px;"></span>
+        {% endif %}
+            <div class="info-box-content">
+                <span class="info-box-text">Attempt 1 Quiz</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-lg-4 col-12">
+        {% if Q5 != None %}
+        <div class="info-box bg-gradient-info">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts5.jpeg')}}" alt="" 
+                ></span>
+        {% else %}
+        <div class="info-box bg-gradient-gray">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts5.jpeg')}}" alt="" style="filter: grayscale(100%);"
+                style="width: 130px; height: 100px;"></span>
+        {% endif %}
+    
+            <div class="info-box-content">
+                <span class="info-box-text">Attempt 5 Quizzes</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    
+    <div class="col-md-3 col-lg-4 col-12">
+        {% if Q10 != None %}
+        <div class="info-box bg-gradient-info">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts10.jpeg')}}" alt="" 
+                ></span>
+        {% else %}
+        <div class="info-box bg-gradient-gray">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts10.jpeg')}}" alt="" style="filter: grayscale(100%);"
+            style="width: 130px; height: 100px;"></span>
+        {% endif %}
+    
+            <div class="info-box-content">
+                <span class="info-box-text">Attempt 10 Quizzes</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    
+    <div class="col-md-3 col-lg-4 col-12">
+        {% if Q50 != None %}
+        <div class="info-box bg-gradient-info">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts.jpeg')}}" alt="" 
+                ></span>
+        {% else %}
+        <div class="info-box bg-gradient-gray">
+            <span class="info-box-icon"><img src="{{url_for('static',filename='/img/achievement/attempts50.jpeg')}}" alt="" style="filter: grayscale(100%);"
+            style="width: 130px; height: 100px;"></span>
+        {% endif %}
+    
+            <div class="info-box-content">
+                <span class="info-box-text">Attempt 50 Quizzes</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
+
+{% for x in achievements%}
+<input type="hidden" id="achievementList" name="achievementList" value="{{x.badgeName}}">
+<input type="hidden" id="achievementListImage" name="achievementListImage" value="{{x.badgeImage}}">
+{% endfor %}
+
+<div class="row m-3" id="library">
+    
+    <!-- JS  -->
+
+</div>
+{% endblock %}
+
+{% block scriptTag %}
+   
+<script>
+    window.addEventListener('load', loadPageQ());
+    function loadPageQ(){
+
+        let strBox = "";
+        const AName = document.querySelectorAll('#achievementList')
+        const AImage = document.querySelectorAll('#achievementListImage')
+        var library = document.querySelector('#library')
+        console.log(AName.length)
+        for (let i = 0; i < AName.length; i++) {
+            console.log(AName[i].value)
+            console.log(AImage[i].value)
+            if(AImage[i].value.includes('attempts')){
+                //nothing happen
+            }else{
+                strBox += `<div class="col-md-3 col-lg-4 col-12">
+                <div class="info-box bg-gradient-info">
+                <span class="info-box-icon"><img src="/static/img/ranking/${AImage[i].value}" alt=""
+                style="width: 130px; height: 100px;"></span>
+    
+                <div class="info-box-content">
+                <span class="info-box-text">${AName[i].value}</span>
+    
+                </div>
+                <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                </div>`
+            }
+            
+                 
+        }
+        
+        library.innerHTML = strBox;
+    }
+
+</script>
+{% endblock %}     
