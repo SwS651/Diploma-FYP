@@ -5,9 +5,12 @@ from datetime import datetime
 import csv
 import random
 from sqlalchemy.sql.schema import ForeignKey
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:\\Users\\tyblu\\Desktop\\Final Year Project\\Programming & Coding\\project final Edition\\project11\\quiznova.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI') or 'sqlite:///' + os.path.join(basedir,'quiznova.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 app.secret_key = "SecretQuizNovaKey "
